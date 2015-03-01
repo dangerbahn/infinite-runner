@@ -4,7 +4,7 @@ using System.Collections;
 public class gauge : MonoBehaviour {
 
   public float gaugeValue = 10;
-	// Use this for initialization
+	// Use this for initialization, or dont!
 	void Start () {
 	 
 	}
