@@ -9,6 +9,7 @@ namespace UnitySampleAssets._2D
     {
         private PlatformerCharacter2D character;
         private bool jump;
+		public float speed = 1;
 
         private void Awake()
         {
@@ -28,7 +29,7 @@ namespace UnitySampleAssets._2D
             // bool crouch = Input.GetKey(KeyCode.LeftControl);
             // float h = CrossPlatformInputManager.GetAxis("Horizontal");
             // Pass all parameters to the character control script.
-            character.Move(1, false, jump);
+            character.Move(speed, false, jump);
             jump = false;
         }
     }

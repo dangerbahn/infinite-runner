@@ -42,7 +42,6 @@ namespace UnitySampleAssets._2D
             // Set the vertical animation
             anim.SetFloat("vSpeed", GetComponent<Rigidbody2D>().velocity.y);
             if(grounded){
-                Debug.Log("|||||||||||||||||||||||||||||||");
                 doubleJump = true;
                 isJumping = false;
             }
@@ -93,7 +92,6 @@ namespace UnitySampleAssets._2D
             {
                 // Add a vertical force to the player.
                 
-                Debug.Log("is jumping to true");
                 GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0);
                 if(!grounded)
                     doubleJump = false;
