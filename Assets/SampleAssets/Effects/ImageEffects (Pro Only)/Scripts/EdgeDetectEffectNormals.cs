@@ -53,9 +53,9 @@ namespace UnitySampleAssets
         private void SetCameraFlag()
         {
             if (mode > (EdgeDetectMode) 1)
-                camera.depthTextureMode |= DepthTextureMode.Depth;
+                GetComponent<Camera>().depthTextureMode |= DepthTextureMode.Depth;
             else
-                camera.depthTextureMode |= DepthTextureMode.DepthNormals;
+                GetComponent<Camera>().depthTextureMode |= DepthTextureMode.DepthNormals;
         }
 
         private void OnEnable()

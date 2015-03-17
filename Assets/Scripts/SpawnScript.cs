@@ -8,7 +8,7 @@ public class SpawnScript : MonoBehaviour {
   public float spawnMax = 2f;
 	// Use this for initialization
 	void Start () {
-	 Spawn();
+	 //Spawn();
 	}
 	
 	void Spawn () {

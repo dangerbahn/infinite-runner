@@ -85,17 +85,17 @@ namespace UnitySampleAssets.ImageEffects.Inspector
             if (!go)
                 return;
 
-            if (!go.camera)
+            if (!go.GetComponent<Camera>())
                 return;
 
             if (simpleTweakMode.boolValue)
                 GUILayout.Label(
-                    "Current: " + go.camera.name + ", near " + go.camera.nearClipPlane + ", far: " +
-                    go.camera.farClipPlane + ", focal: " + focalPoint.floatValue, EditorStyles.miniBoldLabel);
+                    "Current: " + go.GetComponent<Camera>().name + ", near " + go.GetComponent<Camera>().nearClipPlane + ", far: " +
+                    go.GetComponent<Camera>().farClipPlane + ", focal: " + focalPoint.floatValue, EditorStyles.miniBoldLabel);
             else
                 GUILayout.Label(
-                    "Current: " + go.camera.name + ", near " + go.camera.nearClipPlane + ", far: " +
-                    go.camera.farClipPlane + ", focal: " + focalZDistance.floatValue, EditorStyles.miniBoldLabel);
+                    "Current: " + go.GetComponent<Camera>().name + ", near " + go.GetComponent<Camera>().nearClipPlane + ", far: " +
+                    go.GetComponent<Camera>().farClipPlane + ", focal: " + focalZDistance.floatValue, EditorStyles.miniBoldLabel);
 
             EditorGUILayout.PropertyField(resolution, new GUIContent("Resolution"));
             EditorGUILayout.PropertyField(quality, new GUIContent("Quality"));
@@ -112,19 +112,19 @@ namespace UnitySampleAssets.ImageEffects.Inspector
             if (simpleTweakMode.boolValue)
             {
                 focalPoint.floatValue = EditorGUILayout.Slider("Focal distance", focalPoint.floatValue,
-                                                               go.camera.nearClipPlane, go.camera.farClipPlane);
+                                                               go.GetComponent<Camera>().nearClipPlane, go.GetComponent<Camera>().farClipPlane);
                 EditorGUILayout.PropertyField(objectFocus, new GUIContent("Transform"));
                 EditorGUILayout.PropertyField(smoothness, new GUIContent("Smoothness"));
                 focalSize.floatValue = EditorGUILayout.Slider("Focal size", focalSize.floatValue, 0.0f,
-                                                              (go.camera.farClipPlane - go.camera.nearClipPlane));
+                                                              (go.GetComponent<Camera>().farClipPlane - go.GetComponent<Camera>().nearClipPlane));
             }
             else
             {
                 focalZDistance.floatValue = EditorGUILayout.Slider("Distance", focalZDistance.floatValue,
-                                                                   go.camera.nearClipPlane, go.camera.farClipPlane);
+                                                                   go.GetComponent<Camera>().nearClipPlane, go.GetComponent<Camera>().farClipPlane);
                 EditorGUILayout.PropertyField(objectFocus, new GUIContent("Transform"));
                 focalSize.floatValue = EditorGUILayout.Slider("Size", focalSize.floatValue, 0.0f,
-                                                              (go.camera.farClipPlane - go.camera.nearClipPlane));
+                                                              (go.GetComponent<Camera>().farClipPlane - go.GetComponent<Camera>().nearClipPlane));
                 focalStartCurve.floatValue = EditorGUILayout.Slider("Start curve", focalStartCurve.floatValue, 0.05f,
                                                                     20.0f);
                 focalEndCurve.floatValue = EditorGUILayout.Slider("End curve", focalEndCurve.floatValue, 0.05f, 20.0f);

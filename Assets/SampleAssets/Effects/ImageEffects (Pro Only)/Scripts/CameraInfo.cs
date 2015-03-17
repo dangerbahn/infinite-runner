@@ -23,18 +23,18 @@ namespace UnitySampleAssets.ImageEffects
 
         private void Update()
         {
-            if (currentDepthMode != camera.depthTextureMode)
-                camera.depthTextureMode = currentDepthMode;
-            if (currentRenderPath != camera.actualRenderingPath)
-                camera.renderingPath = currentRenderPath;
+            if (currentDepthMode != GetComponent<Camera>().depthTextureMode)
+                GetComponent<Camera>().depthTextureMode = currentDepthMode;
+            if (currentRenderPath != GetComponent<Camera>().actualRenderingPath)
+                GetComponent<Camera>().renderingPath = currentRenderPath;
 
             UpdateInfo();
         }
 
         private void UpdateInfo()
         {
-            currentDepthMode = camera.depthTextureMode;
-            currentRenderPath = camera.actualRenderingPath;
+            currentDepthMode = GetComponent<Camera>().depthTextureMode;
+            currentRenderPath = GetComponent<Camera>().actualRenderingPath;
             PostEffectsBase[] fx = gameObject.GetComponents<PostEffectsBase>();
             int fxCount = 0;
             foreach (var post in fx)

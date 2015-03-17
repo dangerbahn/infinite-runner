@@ -4,7 +4,7 @@ namespace UnitySampleAssets.Effects
 {
     public class WaterHoseParticles : MonoBehaviour
     {
-        private ParticleSystem.CollisionEvent[] collisionEvents = new ParticleSystem.CollisionEvent[16];
+		private ParticleCollisionEvent[] collisionEvents = new ParticleCollisionEvent[16];
 
         public static float lastSoundTime;
         public float force = 1;
@@ -12,14 +12,14 @@ namespace UnitySampleAssets.Effects
         private void OnParticleCollision(GameObject other)
         {
 
-            int safeLength = particleSystem.safeCollisionEventSize;
+            int safeLength = GetComponent<ParticleSystem>().GetSafeCollisionEventSize();
 
             if (collisionEvents.Length < safeLength)
             {
-                collisionEvents = new ParticleSystem.CollisionEvent[safeLength];
+                collisionEvents = new ParticleCollisionEvent[safeLength];
             }
 
-            int numCollisionEvents = particleSystem.GetCollisionEvents(other, collisionEvents);
+            int numCollisionEvents = GetComponent<ParticleSystem>().GetCollisionEvents(other, collisionEvents);
             int i = 0;
 
             while (i < numCollisionEvents)

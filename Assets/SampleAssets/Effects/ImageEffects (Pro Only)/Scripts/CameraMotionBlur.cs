@@ -62,8 +62,8 @@ namespace UnitySampleAssets.ImageEffects
 
         private void CalculateViewProjection()
         {
-            Matrix4x4 viewMat = camera.worldToCameraMatrix;
-            Matrix4x4 projMat = GL.GetGPUProjectionMatrix(camera.projectionMatrix, true);
+            Matrix4x4 viewMat = GetComponent<Camera>().worldToCameraMatrix;
+            Matrix4x4 projMat = GL.GetGPUProjectionMatrix(GetComponent<Camera>().projectionMatrix, true);
             currentViewProjMat = projMat*viewMat;
         }
 
@@ -80,7 +80,7 @@ namespace UnitySampleAssets.ImageEffects
 
         private void OnEnable()
         {
-            camera.depthTextureMode |= DepthTextureMode.Depth;
+            GetComponent<Camera>().depthTextureMode |= DepthTextureMode.Depth;
         }
 
         private void OnDisable()
@@ -206,10 +206,10 @@ namespace UnitySampleAssets.ImageEffects
             if (preview)
             {
                 // generate an artifical 'previous' matrix to simulate blur look
-                Matrix4x4 viewMat = camera.worldToCameraMatrix;
+                Matrix4x4 viewMat = GetComponent<Camera>().worldToCameraMatrix;
                 Matrix4x4 offset = Matrix4x4.identity;
                 offset.SetTRS(previewScale*0.25f, Quaternion.identity, Vector3.one); // using only translation
-                Matrix4x4 projMat = GL.GetGPUProjectionMatrix(camera.projectionMatrix, true);
+                Matrix4x4 projMat = GL.GetGPUProjectionMatrix(GetComponent<Camera>().projectionMatrix, true);
                 prevViewProjMat = projMat*offset*viewMat;
                 motionBlurMaterial.SetMatrix("_PrevViewProj", prevViewProjMat);
                 motionBlurMaterial.SetMatrix("_ToPrevViewProjCombined", prevViewProjMat*invViewPrj);
@@ -228,16 +228,16 @@ namespace UnitySampleAssets.ImageEffects
                 float farHeur = 1.0f;
 
                 // pitch (vertical)
-                farHeur = (Vector3.Angle(transform.up, prevFrameUp)/camera.fieldOfView)*(source.width*0.75f);
+                farHeur = (Vector3.Angle(transform.up, prevFrameUp)/GetComponent<Camera>().fieldOfView)*(source.width*0.75f);
                 blurVector.x = rotationScale*farHeur; //Mathf.Clamp01((1.0f-Vector3.Dot(transform.up, prevFrameUp)));
 
                 // yaw #1 (horizontal, faded by pitch)
-                farHeur = (Vector3.Angle(transform.forward, prevFrameForward)/camera.fieldOfView)*(source.width*0.75f);
+                farHeur = (Vector3.Angle(transform.forward, prevFrameForward)/GetComponent<Camera>().fieldOfView)*(source.width*0.75f);
                 blurVector.y = rotationScale*lookUpDown*farHeur;
                     //Mathf.Clamp01((1.0f-Vector3.Dot(transform.forward, prevFrameForward)));
 
                 // yaw #2 (when looking down, faded by 1-pitch)
-                farHeur = (Vector3.Angle(transform.forward, prevFrameForward)/camera.fieldOfView)*(source.width*0.75f);
+                farHeur = (Vector3.Angle(transform.forward, prevFrameForward)/GetComponent<Camera>().fieldOfView)*(source.width*0.75f);
                 blurVector.z = rotationScale*(1.0f - lookUpDown)*farHeur;
                     //Mathf.Clamp01((1.0f-Vector3.Dot(transform.forward, prevFrameForward)));
 
@@ -254,7 +254,7 @@ namespace UnitySampleAssets.ImageEffects
                 if (preview) // crude approximation
                     motionBlurMaterial.SetVector("_BlurDirectionPacked",
                                                  new Vector4(previewScale.y, previewScale.x, 0.0f, previewScale.z)*0.5f*
-                                                 camera.fieldOfView);
+                                                 GetComponent<Camera>().fieldOfView);
                 else
                     motionBlurMaterial.SetVector("_BlurDirectionPacked", blurVector);
             }
@@ -368,7 +368,7 @@ namespace UnitySampleAssets.ImageEffects
         {
             if (tmpCam == null)
             {
-                String name = "_" + camera.name + "_MotionBlurTmpCam";
+                String name = "_" + GetComponent<Camera>().name + "_MotionBlurTmpCam";
                 GameObject go = GameObject.Find(name);
                 if (null == go) // couldn't find, recreate
                     tmpCam = new GameObject(name, typeof (Camera));
@@ -377,16 +377,16 @@ namespace UnitySampleAssets.ImageEffects
             }
 
             tmpCam.hideFlags = HideFlags.DontSave;
-            tmpCam.transform.position = camera.transform.position;
-            tmpCam.transform.rotation = camera.transform.rotation;
-            tmpCam.transform.localScale = camera.transform.localScale;
-            tmpCam.camera.CopyFrom(camera);
+            tmpCam.transform.position = GetComponent<Camera>().transform.position;
+            tmpCam.transform.rotation = GetComponent<Camera>().transform.rotation;
+            tmpCam.transform.localScale = GetComponent<Camera>().transform.localScale;
+            tmpCam.GetComponent<Camera>().CopyFrom(GetComponent<Camera>());
 
-            tmpCam.camera.enabled = false;
-            tmpCam.camera.depthTextureMode = DepthTextureMode.None;
-            tmpCam.camera.clearFlags = CameraClearFlags.Nothing;
+            tmpCam.GetComponent<Camera>().enabled = false;
+            tmpCam.GetComponent<Camera>().depthTextureMode = DepthTextureMode.None;
+            tmpCam.GetComponent<Camera>().clearFlags = CameraClearFlags.Nothing;
 
-            return tmpCam.camera;
+            return tmpCam.GetComponent<Camera>();
         }
 
         private void StartFrame()

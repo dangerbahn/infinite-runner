@@ -71,7 +71,7 @@ namespace UnitySampleAssets.ImageEffects
 
         private void OnEnable()
         {
-            camera.depthTextureMode |= DepthTextureMode.Depth;
+            GetComponent<Camera>().depthTextureMode |= DepthTextureMode.Depth;
         }
 
         private void OnDisable()
@@ -113,8 +113,8 @@ namespace UnitySampleAssets.ImageEffects
         private float FocalDistance01(float worldDist)
         {
             return
-                camera.WorldToViewportPoint((worldDist - camera.nearClipPlane)*camera.transform.forward +
-                                            camera.transform.position).z/(camera.farClipPlane - camera.nearClipPlane);
+                GetComponent<Camera>().WorldToViewportPoint((worldDist - GetComponent<Camera>().nearClipPlane)*GetComponent<Camera>().transform.forward +
+                                            GetComponent<Camera>().transform.position).z/(GetComponent<Camera>().farClipPlane - GetComponent<Camera>().nearClipPlane);
         }
 
         private void WriteCoc(RenderTexture fromTo, RenderTexture temp1, RenderTexture temp2, bool fgDilate)
@@ -163,7 +163,7 @@ namespace UnitySampleAssets.ImageEffects
             // focal & coc calculations
 
             focalDistance01 = (focalTransform)
-                                  ? (camera.WorldToViewportPoint(focalTransform.position)).z/(camera.farClipPlane)
+                                  ? (GetComponent<Camera>().WorldToViewportPoint(focalTransform.position)).z/(GetComponent<Camera>().farClipPlane)
                                   : FocalDistance01(focalLength);
             dofHdrMaterial.SetVector("_CurveParams", new Vector4(1.0f, focalSize, aperture/10.0f, focalDistance01));
 

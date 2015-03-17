@@ -62,7 +62,7 @@ namespace UnitySampleAssets.ImageEffects
 
             // we actually need to check this every frame
             if (useDepthTexture)
-                camera.depthTextureMode |= DepthTextureMode.Depth;
+                GetComponent<Camera>().depthTextureMode |= DepthTextureMode.Depth;
 
             float divider = 4.0f;
             if (resolution == SunShaftsResolution.Normal)
@@ -72,7 +72,7 @@ namespace UnitySampleAssets.ImageEffects
 
             Vector3 v = Vector3.one*0.5f;
             if (sunTransform)
-                v = camera.WorldToViewportPoint(sunTransform.position);
+                v = GetComponent<Camera>().WorldToViewportPoint(sunTransform.position);
             else
                 v = new Vector3(0.5f, 0.5f, 0.0f);
 
@@ -92,7 +92,7 @@ namespace UnitySampleAssets.ImageEffects
             {
                 RenderTexture tmpBuffer = RenderTexture.GetTemporary(source.width, source.height, 0);
                 RenderTexture.active = tmpBuffer;
-                GL.ClearWithSkybox(false, camera);
+                GL.ClearWithSkybox(false, GetComponent<Camera>());
 
                 sunShaftsMaterial.SetTexture("_Skybox", tmpBuffer);
                 Graphics.Blit(source, lrDepthBuffer, sunShaftsMaterial, 3);

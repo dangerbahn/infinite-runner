@@ -121,14 +121,14 @@ namespace UnitySampleAssets.ImageEffects
 
         private void OnEnable()
         {
-            camera.depthTextureMode |= DepthTextureMode.Depth;
+            GetComponent<Camera>().depthTextureMode |= DepthTextureMode.Depth;
         }
 
         private float FocalDistance01(float worldDist)
         {
             return
-                camera.WorldToViewportPoint((worldDist - camera.nearClipPlane)*camera.transform.forward +
-                                            camera.transform.position).z/(camera.farClipPlane - camera.nearClipPlane);
+                GetComponent<Camera>().WorldToViewportPoint((worldDist - GetComponent<Camera>().nearClipPlane)*GetComponent<Camera>().transform.forward +
+                                            GetComponent<Camera>().transform.position).z/(GetComponent<Camera>().farClipPlane - GetComponent<Camera>().nearClipPlane);
         }
 
         private int GetDividerBasedOnQuality()
@@ -174,24 +174,24 @@ namespace UnitySampleAssets.ImageEffects
             float bokehBlurAmplifier = bokeh ? BOKEH_EXTRA_BLUR : 1.0f;
 
             bool blurForeground = quality > Dof34QualitySetting.OnlyBackground;
-            float focal01Size = focalSize/(camera.farClipPlane - camera.nearClipPlane);
+            float focal01Size = focalSize/(GetComponent<Camera>().farClipPlane - GetComponent<Camera>().nearClipPlane);
             ;
 
             if (simpleTweakMode)
             {
                 focalDistance01 = objectFocus
-                                      ? (camera.WorldToViewportPoint(objectFocus.position)).z/(camera.farClipPlane)
+                                      ? (GetComponent<Camera>().WorldToViewportPoint(objectFocus.position)).z/(GetComponent<Camera>().farClipPlane)
                                       : FocalDistance01(focalPoint);
                 focalStartCurve = focalDistance01*smoothness;
                 focalEndCurve = focalStartCurve;
-                blurForeground = blurForeground && (focalPoint > (camera.nearClipPlane + Mathf.Epsilon));
+                blurForeground = blurForeground && (focalPoint > (GetComponent<Camera>().nearClipPlane + Mathf.Epsilon));
             }
             else
             {
                 if (objectFocus)
                 {
-                    var vpPoint = camera.WorldToViewportPoint(objectFocus.position);
-                    vpPoint.z = (vpPoint.z)/(camera.farClipPlane);
+                    var vpPoint = GetComponent<Camera>().WorldToViewportPoint(objectFocus.position);
+                    vpPoint.z = (vpPoint.z)/(GetComponent<Camera>().farClipPlane);
                     focalDistance01 = vpPoint.z;
                 }
                 else
@@ -199,7 +199,7 @@ namespace UnitySampleAssets.ImageEffects
 
                 focalStartCurve = focalZStartCurve;
                 focalEndCurve = focalZEndCurve;
-                blurForeground = blurForeground && (focalPoint > (camera.nearClipPlane + Mathf.Epsilon));
+                blurForeground = blurForeground && (focalPoint > (GetComponent<Camera>().nearClipPlane + Mathf.Epsilon));
             }
 
             widthOverHeight = (1.0f*source.width)/(1.0f*source.height);

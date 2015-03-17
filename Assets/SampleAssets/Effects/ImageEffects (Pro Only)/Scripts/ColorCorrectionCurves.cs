@@ -141,7 +141,7 @@ namespace UnitySampleAssets.ImageEffects
             }
 
             if (useDepthCorrection)
-                camera.depthTextureMode |= DepthTextureMode.Depth;
+                GetComponent<Camera>().depthTextureMode |= DepthTextureMode.Depth;
 
             RenderTexture renderTarget2Use = destination;
 
