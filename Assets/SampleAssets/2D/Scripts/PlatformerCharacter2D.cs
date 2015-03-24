@@ -9,6 +9,8 @@ namespace UnitySampleAssets._2D
 
         [SerializeField] private float maxSpeed = 10f; // The fastest the player can travel in the x axis.
         [SerializeField] private float jumpForce = 400f; // Amount of force added when the player jumps.	
+		[SerializeField] private float extraForce = 1f; // Amount of force added when the player jumps.
+		[SerializeField] private int extraForceLimit = 100; // Amount of force added when the player jumps.
 
         [Range(0, 1)] [SerializeField] private float crouchSpeed = .36f;
                                                      // Amount of maxSpeed applied to crouching movement. 1 = 100%
@@ -24,6 +26,8 @@ namespace UnitySampleAssets._2D
         private Animator anim; // Reference to the player's animator component.
         private bool doubleJump = false;
         private bool isJumping = false;
+		private bool extraForceUsed = false;
+		private int forceAdded = 0;
 
         private void Awake()
         {
@@ -43,15 +47,18 @@ namespace UnitySampleAssets._2D
             anim.SetFloat("vSpeed", GetComponent<Rigidbody2D>().velocity.y);
             if(grounded){
                 doubleJump = true;
+				extraForceUsed = false;
                 isJumping = false;
+				forceAdded = 0;
             }
             else{
                 isJumping = true;
+
             }
         }
 
 
-        public void Move(float move, bool crouch, bool jump)
+        public void Move(float move, bool crouch, bool jump, bool jumpHold)
         {
 
 
@@ -88,21 +95,47 @@ namespace UnitySampleAssets._2D
                     Flip();
             }
             // If the player should jump...
-            if ((grounded || (isJumping && doubleJump)) && jump)
-            {
-                // Add a vertical force to the player.
-                
-                GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0);
-                if(!grounded)
-                    doubleJump = false;
-
-                anim.SetBool("Ground", false);
-                grounded = false;
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
+            if ((grounded || (isJumping && doubleJump)) && jump){
+				triggerDoubleJump();
             }
 
+
+
+			if (!grounded && isJumping && !jumpHold) {
+				extraForceUsed = true;
+			}
+			if (!grounded && isJumping && doubleJump && jumpHold && !extraForceUsed) {
+
+				triggerEnhanceJump(jump);
+			}
+
+			 
         }
 
+		private void triggerEnhanceJump(bool jump){
+			Debug.Log (extraForceLimit);
+			Debug.Log (extraForce);
+			if (forceAdded < extraForceLimit) {
+				Debug.Log ("jumping high!");
+
+				GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0f, extraForce));
+				forceAdded += 1;
+
+				
+			}
+		}
+
+		private void triggerDoubleJump(){
+			// Add a vertical force to the player.
+			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0);
+			if(!grounded){
+				doubleJump = false;
+			}
+
+			anim.SetBool("Ground", false);
+			grounded = false;
+			GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
+		}
 
         private void Flip()
         {
