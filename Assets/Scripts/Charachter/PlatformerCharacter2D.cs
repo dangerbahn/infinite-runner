@@ -8,9 +8,8 @@ namespace UnitySampleAssets._2D
         private bool facingRight = true; // For determining which way the player is currently facing.
 
         [SerializeField] private float maxSpeed = 10f; // The fastest the player can travel in the x axis.
-        [SerializeField] private float jumpForce = 400f; // Amount of force added when the player jumps.	
-		[SerializeField] private float extraForce = 100f; // Amount of force added when the player jumps.
-		[SerializeField] private int extraForceLimit = 100; // Amount of force added when the player jumps.
+        [SerializeField] private float jumpForce = 800f; // Amount of force added when the player jumps.	
+		[SerializeField] private int extraForceLimit = 20; // Amount of force added when the player jumps.
 
         [Range(0, 1)] [SerializeField] private float crouchSpeed = .36f;
                                                      // Amount of maxSpeed applied to crouching movement. 1 = 100%
@@ -113,16 +112,19 @@ namespace UnitySampleAssets._2D
         }
 
 		private void triggerEnhanceJump(bool jump){
+			Debug.Log (jumpForce * 2);
 			Debug.Log (extraForceLimit);
-			Debug.Log (extraForce);
 			if (forceAdded < extraForceLimit) {
 				Debug.Log ("jumping high!");
 
-				GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0f, extraForce));
+				GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0f, (jumpForce / 20)));
 				forceAdded += 1;
 
 				
 			}
+            else{
+                Debug.Log ("jumping stop!");
+            }
 		}
 
 		private void triggerDoubleJump(){
