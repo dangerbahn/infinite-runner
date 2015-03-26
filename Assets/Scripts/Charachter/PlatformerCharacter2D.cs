@@ -9,7 +9,7 @@ namespace UnitySampleAssets._2D
 
         [SerializeField] private float maxSpeed = 10f; // The fastest the player can travel in the x axis.
         [SerializeField] private float jumpForce = 400f; // Amount of force added when the player jumps.	
-		[SerializeField] private float extraForce = 10f; // Amount of force added when the player jumps.
+		[SerializeField] private float extraForce = 100f; // Amount of force added when the player jumps.
 		[SerializeField] private int extraForceLimit = 100; // Amount of force added when the player jumps.
 
         [Range(0, 1)] [SerializeField] private float crouchSpeed = .36f;

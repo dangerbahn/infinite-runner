@@ -86,11 +86,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj:
-  - {fileID: 108616, guid: 01c978486d3714be78d9c600b671140d, type: 2}
-  - {fileID: 176032, guid: 10393bd4e775544e7ada46c798f12575, type: 2}
-  - {fileID: 112420, guid: f557d7f01fa754f35a43bc06739d1f1a, type: 2}
-  spawnMin: 1
-  spawnMax: 2
+  - {fileID: 145670, guid: 33f2612af34344a72886b5863c1eb65e, type: 2}
+  - {fileID: 145670, guid: 33f2612af34344a72886b5863c1eb65e, type: 2}
+  - {fileID: 145670, guid: 33f2612af34344a72886b5863c1eb65e, type: 2}
+  spawnMin: 10
+  spawnMax: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
